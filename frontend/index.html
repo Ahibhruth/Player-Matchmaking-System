@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Matchmaking Arena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="welcome-screen">
+    <h1>🎮 Welcome to Matchmaking Arena</h1>
+    <button onclick="startGame()">START</button>
+  </div>
+
+  <div id="game-ui" class="hidden">
+    <h1>🕹️ Matchmaking Arena</h1>
+
+    <div class="section">
+      <h2>Register Player</h2>
+      <input type="text" id="regName" placeholder="Player Name">
+      <input type="number" id="regRank" placeholder="Rank">
+      <select id="regStyle">
+        <option value="aggressive">Aggressive</option>
+        <option value="defensive">Defensive</option>
+        <option value="balanced">Balanced</option>
+      </select>
+      <button onclick="registerPlayer()">Register</button>
+    </div>
+
+    <div class="section">
+      <h2>Find Match</h2>
+      <input type="text" id="matchName" placeholder="Enter player name">
+      <button onclick="findMatch()">Match</button>
+    </div>
+
+    <div class="section">
+      <h2>Delete Player</h2>
+      <input type="text" id="deleteName" placeholder="Player name to delete">
+      <button onclick="deletePlayer()">Delete</button>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
