@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "name": "Alice",
+    "rank": 1500,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": [
+      "defensive"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Bob",
+    "rank": 1480,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 3,
+    "name": "Charlie",
+    "rank": 1600,
+    "playstyle": "balanced",
+    "available": false,
+    "avoid": [
+      "aggressive"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Diana",
+    "rank": 1430,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 5,
+    "name": "Eve",
+    "rank": 1550,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": [
+      "aggressive"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Frank",
+    "rank": 1700,
+    "playstyle": "balanced",
+    "available": false,
+    "avoid": []
+  },
+  {
+    "id": 7,
+    "name": "Grace",
+    "rank": 1450,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 8,
+    "name": "Hank",
+    "rank": 1495,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 9,
+    "name": "Ivy",
+    "rank": 1670,
+    "playstyle": "balanced",
+    "available": false,
+    "avoid": []
+  },
+  {
+    "id": 10,
+    "name": "Jack",
+    "rank": 1620,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": [
+      "defensive"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Karen",
+    "rank": 1380,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 12,
+    "name": "Leo",
+    "rank": 1465,
+    "playstyle": "balanced",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 13,
+    "name": "Mona",
+    "rank": 1400,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 14,
+    "name": "Nate",
+    "rank": 1505,
+    "playstyle": "defensive",
+    "available": false,
+    "avoid": [
+      "balanced"
+    ]
+  },
+  {
+    "id": 15,
+    "name": "Olivia",
+    "rank": 1530,
+    "playstyle": "balanced",
+    "available": true,
+    "avoid": [
+      "aggressive"
+    ]
+  },
+  {
+    "id": 16,
+    "name": "Paul",
+    "rank": 1580,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 17,
+    "name": "Quinn",
+    "rank": 1420,
+    "playstyle": "defensive",
+    "available": false,
+    "avoid": [
+      "balanced"
+    ]
+  },
+  {
+    "id": 18,
+    "name": "Rachel",
+    "rank": 1475,
+    "playstyle": "balanced",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 19,
+    "name": "Steve",
+    "rank": 1520,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": [
+      "defensive"
+    ]
+  },
+  {
+    "id": 20,
+    "name": "Tina",
+    "rank": 1440,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 233,
+    "name": "remi",
+    "rank": 2333,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 45,
+    "name": "hjgfghv",
+    "rank": 5455,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": [
+      "defensive"
+    ]
+  },
+  {
+    "id": 234,
+    "name": "anna",
+    "rank": 454,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 123,
+    "name": "ashish",
+    "rank": 45,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 235,
+    "name": "blah",
+    "rank": 3424,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": [
+      "Defensive"
+    ]
+  }
+]
