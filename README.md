@@ -10,7 +10,7 @@ Features
 - 📈 **Logging & Analysis**: Monitor queue and match history.
 - 🔌 **Extensible**: Plug-in system for different ranking methods.
 
-- Languages used
+Languages used
 - Python
 - HTML
 - CSS
