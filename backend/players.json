@@ -218,5 +218,13 @@
     "avoid": [
       "Defensive"
     ]
+  },
+  {
+    "id": 2333,
+    "name": "asdf",
+    "rank": 5,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
   }
 ]
