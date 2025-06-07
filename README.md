@@ -32,10 +32,12 @@ pip install -r requirements.txt
 
 🚀 How to Run the Project
 ---
-1. Clone the Repository
+1.Clone the Repository
 git clone https://github.com/Ahibhruth/Player-Matchmaking-System.git
-
 cd Player-Matchmaking-System
+
+
+
 
 2.Create and Activate a Virtual Environment
 Windows (Command Prompt):
