@@ -36,9 +36,7 @@ pip install -r requirements.txt
 git clone https://github.com/Ahibhruth/Player-Matchmaking-System.git
 cd Player-Matchmaking-System
 
-
-
-
+---
 2.Create and Activate a Virtual Environment
 Windows (Command Prompt):
 Navigate to the backend folder using the command-  cd backend
@@ -49,16 +47,19 @@ python -m venv venv
 
 venv\Scripts\activate
 
+---
 3.Install the Dependencies
 
 pip install -r requirements.txt
 
+---
 4.Run the Application
 
 python main.py
 
 This will start the matchmaking system, process player data, and output match results based on the defined algorithm.
 
+---
 5.To run the frontend-
 
 right click on the index.html folder and ensure you have "live server" extension installed in Visual Studio Code if you are running here.
