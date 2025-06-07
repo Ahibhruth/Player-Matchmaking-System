@@ -25,6 +25,7 @@ Techstacks used
 ---       
 
 To install all dependencies-
+---
 pip install -r requirements.txt
 
 ---
@@ -33,24 +34,33 @@ pip install -r requirements.txt
 ---
 1. Clone the Repository
 git clone https://github.com/Ahibhruth/Player-Matchmaking-System.git
+
 cd Player-Matchmaking-System
 
 2.Create and Activate a Virtual Environment
 Windows (Command Prompt):
 Navigate to the backend folder using the command-  cd backend
+
 Then create a virtual env(recommended)
+
 python -m venv venv
+
 venv\Scripts\activate
 
 3.Install the Dependencies
+
 pip install -r requirements.txt
 
 4.Run the Application
+
 python main.py
+
 This will start the matchmaking system, process player data, and output match results based on the defined algorithm.
 
 5.To run the frontend-
+
 right click on the index.html folder and ensure you have "live server" extension installed in Visual Studio Code if you are running here.
+
 You can right click on the "index.html" file and select "open with live server"
 
 ---
