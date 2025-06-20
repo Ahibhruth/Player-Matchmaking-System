@@ -1,4 +1,4 @@
-/* App.css */
+
 body {
   margin: 0;
   font-family: 'Mulish', sans-serif;
@@ -29,11 +29,11 @@ body {
 .right-panel {
   width: 60%;
   padding: 2rem;
-  overflow-y: auto;
-    height: 100vh;
-  overflow:hidden ;
+  height: 100vh;
+  overflow-y: auto;  
   background-color: #02051f;
 }
+
 
 .content {
   position: absolute;
@@ -52,7 +52,7 @@ body {
 }
 
 .subtitle {
-  color: #d0d7ff; /* subtle cool white-blue */
+  color: #d0d7ff;
   font-weight: 600;
   font-size: 1.3rem;
   margin-bottom: 1.5rem;
@@ -64,4 +64,38 @@ body {
   line-height: 1.5;
   max-width: 380px;
   margin: 0 auto;
+}
+
+
+.match-history-container {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+  background-color: #121a2f;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.match-history-container table {
+  width: 100%;
+  min-width: 400px;
+  border-collapse: collapse;
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.match-history-container th,
+.match-history-container td {
+  border: 1px solid #2e2e2e;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.match-history-container th {
+  background-color: #1b1f30;
+  color: #c0d3ff;
+}
+
+.match-history-container td {
+  background-color: #10131f;
 }

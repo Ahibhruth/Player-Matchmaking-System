@@ -196,7 +196,7 @@
   {
     "id": 234,
     "name": "anna",
-    "rank": 454,
+    "rank": 479,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -204,7 +204,7 @@
   {
     "id": 123,
     "name": "ashish",
-    "rank": 45,
+    "rank": 1000,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -224,6 +224,46 @@
     "name": "asdf",
     "rank": 5,
     "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 101,
+    "name": "Ahibhruth A",
+    "rank": 1,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2334,
+    "name": "Nishan",
+    "rank": 10,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2335,
+    "name": "Testplayer 1",
+    "rank": 1425,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2336,
+    "name": "TestPlayer 2",
+    "rank": 1435,
+    "playstyle": "defensive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2337,
+    "name": "12345",
+    "rank": 8000,
+    "playstyle": "aggressive",
     "available": true,
     "avoid": []
   }

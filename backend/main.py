@@ -3,11 +3,12 @@ import json
 import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
-# --- Player class and static dataset (from prog.py) ---
+
 class Player:
     def __init__(self, id, name, rank, playstyle, available=True, avoid=None):
         self.id = id
@@ -37,7 +38,7 @@ def dict_to_player(d):
         avoid=d.get("avoid", []),
     )
 
-# Static player dataset (list of dicts)
+
 static_player_data = [
     {"id": 1, "name": "Alice", "rank": 1500, "playstyle": "aggressive", "available": True, "avoid": ["defensive"]},
     {"id": 2, "name": "Bob", "rank": 1480, "playstyle": "defensive", "available": True, "avoid": []},
@@ -61,102 +62,121 @@ static_player_data = [
     {"id": 20, "name": "Tina", "rank": 1440, "playstyle": "defensive", "available": True, "avoid": []},
 ]
 
-# Path for persistent player data
-PLAYER_JSON_PATH = os.path.join(os.path.dirname(__file__), 'players.json')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PLAYER_JSON_PATH = os.path.join(BASE_DIR, 'players.json')
+MATCH_HISTORY_PATH = os.path.join(BASE_DIR, 'match_history.json')
 
-# Thread lock for safe concurrent access
 player_data_lock = threading.Lock()
 
 def load_players():
     if os.path.exists(PLAYER_JSON_PATH):
         with open(PLAYER_JSON_PATH, 'r') as f:
             return json.load(f)
-    else:
-        return static_player_data.copy()
+    return static_player_data.copy()
 
 def save_players(players):
     with open(PLAYER_JSON_PATH, 'w') as f:
         json.dump(players, f, indent=2)
 
-# --- API Endpoints ---
+def append_match_history(winner, loser):
+    history = []
+    if os.path.exists(MATCH_HISTORY_PATH):
+        with open(MATCH_HISTORY_PATH, 'r') as f:
+            history = json.load(f)
+    history.append({
+        "winner": winner,
+        "loser": loser,
+        "timestamp": datetime.utcnow().isoformat()
+    })
+    with open(MATCH_HISTORY_PATH, 'w') as f:
+        json.dump(history, f, indent=2)
+
 
 @app.route('/api/players', methods=['GET'])
 def get_players():
     with player_data_lock:
         players = load_players()
-        names = [p["name"] for p in players]
-    return jsonify({"players": names})
+    return jsonify({"players": [p["name"] for p in players]})
 
 @app.route('/api/register_player', methods=['POST'])
 def register_player():
     data = request.get_json()
-    id_ = data.get('id')
-    name = data.get('name')
-    rank = data.get('rank')
-    playstyle = data.get('playstyle')
-    avoid = data.get('avoid', [])
-    available = data.get('available', True)
     with player_data_lock:
         players = load_players()
-        if any(p["name"] == name for p in players):
+        if any(p["name"] == data['name'] for p in players):
             return jsonify({"message": "Player already exists!"}), 400
-        # Use provided id if unique, else generate new
-        if id_ is None or any(p["id"] == id_ for p in players):
-            new_id = max([p["id"] for p in players] or [0]) + 1
-        else:
-            new_id = id_
-        players.append({
-            "id": new_id,
-            "name": name,
-            "rank": rank,
-            "playstyle": playstyle,
-            "available": available,
-            "avoid": avoid
-        })
+        new_id = max((p["id"] for p in players), default=0) + 1
+        data["id"] = new_id
+        players.append(data)
         save_players(players)
     return jsonify({"message": "Player registered successfully!"}), 200
 
 @app.route('/api/match/<name>', methods=['GET'])
 def match_player(name):
     exclude = request.args.getlist('exclude')
-    if isinstance(exclude, str):
-        exclude = [exclude]
     with player_data_lock:
         players = [dict_to_player(p) for p in load_players()]
-    selected_player = next((p for p in players if p.name == name), None)
-    if not selected_player:
+    current = next((p for p in players if p.name == name), None)
+    if not current:
         return jsonify({"error": "Player not found!"}), 404
-    def build_cost_vector(base_player, candidates, max_rank_diff, respect_avoid=True, style_penalty=20):
-        cost_vector = []
-        for p in candidates:
-            if abs(base_player.rank - p.rank) > max_rank_diff:
-                cost_vector.append(float('inf'))
-                continue
-            if respect_avoid and (p.playstyle in base_player.avoid or base_player.playstyle in p.avoid):
-                cost_vector.append(float('inf'))
-                continue
-            cost = abs(base_player.rank - p.rank)
-            if base_player.playstyle != p.playstyle:
-                cost += style_penalty
-            cost_vector.append(cost)
-        return cost_vector
-    fallback_levels = [
-        (100, True, 20),
-        (150, True, 10),
-        (300, False, 5),
-        (1000, False, 0)
-    ]
-    opponents = [p for p in players if p.name != name and p.available]
-    if exclude:
-        opponents = [p for p in opponents if p.name not in exclude]
+    candidates = [p for p in players if p.name != name and p.available and p.name not in exclude]
+
+    fallback_levels = [(100, True, 20), (150, True, 10), (300, False, 5), (1000, False, 0)]
     for max_rank_diff, respect_avoid, style_penalty in fallback_levels:
-        costs = build_cost_vector(selected_player, opponents, max_rank_diff, respect_avoid, style_penalty)
-        if all(c == float('inf') for c in costs):
-            continue
-        best_index = costs.index(min(costs))
-        best_match = opponents[best_index]
-        return jsonify({"matches": [best_match.name]}), 200
-    return jsonify({"error": "No matching players found!"}), 404
+        valid = []
+        for p in candidates:
+            if abs(current.rank - p.rank) > max_rank_diff:
+                continue
+            if respect_avoid and (p.playstyle in current.avoid or current.playstyle in p.avoid):
+                continue
+            cost = abs(current.rank - p.rank)
+            if current.playstyle != p.playstyle:
+                cost += style_penalty
+            valid.append((p, cost))
+        if valid:
+            best = sorted(valid, key=lambda x: x[1])[0][0]
+            return jsonify({"matches": [best.name]})
+    return jsonify({"error": "No match found"}), 404
+
+@app.route('/api/report_result', methods=['POST'])
+def report_result():
+    data = request.get_json()
+    winner_name = data.get("winner")
+    loser_name = data.get("loser")
+
+    with player_data_lock:
+        players = load_players()
+        winner = next((p for p in players if p['name'] == winner_name), None)
+        loser = next((p for p in players if p['name'] == loser_name), None)
+        if not winner or not loser:
+            return jsonify({"error": "Winner or loser not found"}), 404
+
+        winner['rank'] += 25
+        loser['rank'] = max(1000, loser['rank'] - 15)
+        save_players(players)
+        append_match_history(winner_name, loser_name)
+
+    return jsonify({
+        "message": "Match result recorded.",
+        "new_winner_rank": winner['rank'],
+        "new_loser_rank": loser['rank']
+    })
+
+@app.route('/api/leaderboard', methods=['GET'])
+def leaderboard():
+    with player_data_lock:
+        players = load_players()
+        sorted_players = sorted(players, key=lambda x: x["rank"], reverse=True)
+    return jsonify(sorted_players)
+
+@app.route('/api/match_history', methods=['GET'])
+def get_match_history():
+    if os.path.exists(MATCH_HISTORY_PATH):
+        with open(MATCH_HISTORY_PATH, 'r') as f:
+            history = json.load(f)
+    else:
+        history = []
+    return jsonify(history)
 
 if __name__ == "__main__":
     app.run(debug=True)
