@@ -64,9 +64,9 @@ This will start the matchmaking system, process player data, and output match re
 ---
 5.To run the frontend-
 
-right click on the index.html folder and ensure you have "live server" extension installed in Visual Studio Code if you are running here.
-
-You can right click on the "index.html" file and select "open with live server"
+cd folder path
+cd frontend
+npm run dev 
 
 ---
 
