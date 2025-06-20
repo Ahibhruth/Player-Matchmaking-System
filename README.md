@@ -64,9 +64,11 @@ This will start the matchmaking system, process player data, and output match re
 ---
 5.To run the frontend-
 
-cd folder path
-cd frontend
-npm run dev 
+cd folder path  
+
+cd frontend  
+
+npm run dev    
 
 ---
 
