@@ -114,7 +114,7 @@
   {
     "id": 14,
     "name": "Nate",
-    "rank": 1505,
+    "rank": 1490,
     "playstyle": "defensive",
     "available": false,
     "avoid": [
@@ -178,7 +178,7 @@
   {
     "id": 233,
     "name": "remi",
-    "rank": 2333,
+    "rank": 2343,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -212,7 +212,7 @@
   {
     "id": 235,
     "name": "blah",
-    "rank": 3424,
+    "rank": 3449,
     "playstyle": "aggressive",
     "available": true,
     "avoid": [

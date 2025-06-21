@@ -3,7 +3,7 @@
   max-width: 600px;
   margin: auto;
   height: 100vh;
-  overflow: hidden;
+  overflow: scroll;
   padding-bottom: 2rem;
   color: #e0e0e0;
 }
