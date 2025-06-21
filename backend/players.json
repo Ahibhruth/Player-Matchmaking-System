@@ -124,7 +124,7 @@
   {
     "id": 15,
     "name": "Olivia",
-    "rank": 1530,
+    "rank": 1515,
     "playstyle": "balanced",
     "available": true,
     "avoid": [
@@ -263,6 +263,14 @@
     "id": 2337,
     "name": "12345",
     "rank": 8000,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2338,
+    "name": "rain",
+    "rank": 147,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []

@@ -1,12 +1,59 @@
 import React, { useState, useEffect } from "react";
 import "./MatchmakingForm.css";
 
+const PlayerProfileModal = ({ player, onClose }) => {
+  if (!player) return null;
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <button className="close-button" onClick={onClose}>×</button>
+        <h2>{player.name}'s Profile</h2>
+        <div className="player-details">
+          <p><strong>Rank:</strong> {player.rank}</p>
+          <p><strong>Playstyle:</strong> {player.playstyle}</p>
+          <p><strong>Wins:</strong> {player.wins || 0}</p>
+          <p><strong>Losses:</strong> {player.losses || 0}</p>
+          <p><strong>Total Matches:</strong> {player.total_matches || 0}</p>
+          <p><strong>Win Rate:</strong> {player.win_rate || 0}%</p>
+          
+          {player.match_history && player.match_history.length > 0 && (
+            <div className="match-history">
+              <h3>Match History</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Winner</th>
+                    <th>Loser</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {player.match_history.map((match, index) => (
+                    <tr key={index} className={match.winner === player.name ? 'won' : 'lost'}>
+                      <td>{new Date(match.timestamp).toLocaleString()}</td>
+                      <td>{match.winner}</td>
+                      <td>{match.loser}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 const MatchmakingForm = () => {
   const [players, setPlayers] = useState([]);
   const [form, setForm] = useState({ id: "", name: "", rank: "", playstyle: "aggressive", available: "true", avoid: "" });
   const [matchResult, setMatchResult] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [lastMatchedPlayers, setLastMatchedPlayers] = useState([]);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/api/players")
@@ -44,6 +91,22 @@ const MatchmakingForm = () => {
       });
   };
 
+  const viewPlayerProfile = async (playerName) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/player_stats/${encodeURIComponent(playerName)}`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSelectedProfile(data);
+      } else {
+        alert(data.error || 'Failed to load player profile');
+      }
+    } catch (err) {
+      console.error('Error fetching player profile:', err);
+      alert('Error loading player profile');
+    }
+  };
+
   const findMatch = () => {
     if (!selectedPlayer) return alert("Select a player first");
     setLastMatchedPlayers([]);
@@ -51,14 +114,34 @@ const MatchmakingForm = () => {
       .then(res => res.json())
       .then(data => {
         if (data.matches) {
-          setLastMatchedPlayers([data.matches[0]]);
+          const matchedPlayer = data.matches[0];
+          setLastMatchedPlayers([matchedPlayer]);
           setMatchResult(
             <>
-              Matched Player: <strong>{data.matches[0]}</strong> —{" "}
-              <a href={`/player/${data.matches[0]}`} style={{ color: "#88f" }}>View Profile</a>
+              Matched Player: <strong>{matchedPlayer}</strong> —{" "}
+              <button 
+                onClick={() => viewPlayerProfile(matchedPlayer)}
+                style={{ 
+                  background: 'none',
+                  border: 'none',
+                  color: '#88f',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  padding: 0,
+                  font: 'inherit'
+                }}
+              >
+                View Profile
+              </button>
             </>
           );
-        } else setMatchResult(data.error);
+        } else {
+          setMatchResult(data.error);
+        }
+      })
+      .catch(err => {
+        console.error('Error finding match:', err);
+        setMatchResult('Error finding match');
       });
   };
 
@@ -72,19 +155,45 @@ const MatchmakingForm = () => {
       .then(res => res.json())
       .then(data => {
         if (data.matches) {
-          setLastMatchedPlayers(prev => [...prev, data.matches[0]]);
+          const newMatchedPlayer = data.matches[0];
+          setLastMatchedPlayers(prev => [...prev, newMatchedPlayer]);
           setMatchResult(
             <>
-              Matched Player: <strong>{data.matches[0]}</strong> —{" "}
-              <a href={`/player/${data.matches[0]}`} style={{ color: "#88f" }}>View Profile</a>
+              Matched Player: <strong>{newMatchedPlayer}</strong> —{" "}
+              <button 
+                onClick={() => viewPlayerProfile(newMatchedPlayer)}
+                style={{ 
+                  background: 'none',
+                  border: 'none',
+                  color: '#88f',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  padding: 0,
+                  font: 'inherit'
+                }}
+              >
+                View Profile
+              </button>
             </>
           );
-        } else setMatchResult(data.error);
+        } else {
+          setMatchResult(data.error);
+        }
+      })
+      .catch(err => {
+        console.error('Error finding another match:', err);
+        setMatchResult('Error finding another match');
       });
   };
 
   return (
     <div className="container">
+      {selectedProfile && (
+        <PlayerProfileModal 
+          player={selectedProfile} 
+          onClose={() => setSelectedProfile(null)} 
+        />
+      )}
 
       <section className="section">
         <h2 className="section-title">REGISTER PLAYER</h2>
