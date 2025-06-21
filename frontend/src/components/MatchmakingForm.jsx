@@ -52,7 +52,12 @@ const MatchmakingForm = () => {
       .then(data => {
         if (data.matches) {
           setLastMatchedPlayers([data.matches[0]]);
-          setMatchResult(`Matched Player: ${data.matches[0]}`);
+          setMatchResult(
+            <>
+              Matched Player: <strong>{data.matches[0]}</strong> —{" "}
+              <a href={`/player/${data.matches[0]}`} style={{ color: "#88f" }}>View Profile</a>
+            </>
+          );
         } else setMatchResult(data.error);
       });
   };
@@ -68,7 +73,12 @@ const MatchmakingForm = () => {
       .then(data => {
         if (data.matches) {
           setLastMatchedPlayers(prev => [...prev, data.matches[0]]);
-          setMatchResult(`Matched Player: ${data.matches[0]}`);
+          setMatchResult(
+            <>
+              Matched Player: <strong>{data.matches[0]}</strong> —{" "}
+              <a href={`/player/${data.matches[0]}`} style={{ color: "#88f" }}>View Profile</a>
+            </>
+          );
         } else setMatchResult(data.error);
       });
   };

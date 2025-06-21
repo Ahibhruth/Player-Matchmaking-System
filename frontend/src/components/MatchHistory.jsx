@@ -6,7 +6,7 @@ const MatchHistory = () => {
   useEffect(() => {
     fetch("http://localhost:5000/api/match_history")
       .then((res) => res.json())
-      .then((data) => setHistory(data.history || []))
+      .then((data) => setHistory(Array.isArray(data) ? data : []))
       .catch((err) => console.error("Failed to fetch match history", err));
   }, []);
 

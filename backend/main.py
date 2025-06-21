@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-
+# --------- Player Class & Converters ----------
 class Player:
     def __init__(self, id, name, rank, playstyle, available=True, avoid=None):
         self.id = id
@@ -38,7 +38,7 @@ def dict_to_player(d):
         avoid=d.get("avoid", []),
     )
 
-
+# --------- Static Data and File Paths ----------
 static_player_data = [
     {"id": 1, "name": "Alice", "rank": 1500, "playstyle": "aggressive", "available": True, "avoid": ["defensive"]},
     {"id": 2, "name": "Bob", "rank": 1480, "playstyle": "defensive", "available": True, "avoid": []},
@@ -68,6 +68,7 @@ MATCH_HISTORY_PATH = os.path.join(BASE_DIR, 'match_history.json')
 
 player_data_lock = threading.Lock()
 
+# --------- Utility Functions ----------
 def load_players():
     if os.path.exists(PLAYER_JSON_PATH):
         with open(PLAYER_JSON_PATH, 'r') as f:
@@ -91,7 +92,7 @@ def append_match_history(winner, loser):
     with open(MATCH_HISTORY_PATH, 'w') as f:
         json.dump(history, f, indent=2)
 
-
+# --------- ROUTES ----------
 @app.route('/api/players', methods=['GET'])
 def get_players():
     with player_data_lock:
@@ -177,6 +178,37 @@ def get_match_history():
     else:
         history = []
     return jsonify(history)
+
+@app.route('/api/player_stats/<name>', methods=['GET'])
+def player_stats(name):
+    with player_data_lock:
+        players = load_players()
+        player = next((p for p in players if p['name'] == name), None)
+
+    if not player:
+        return jsonify({"error": "Player not found"}), 404
+
+    history = []
+    if os.path.exists(MATCH_HISTORY_PATH):
+        with open(MATCH_HISTORY_PATH, 'r') as f:
+            history = json.load(f)
+
+    player_history = [m for m in history if m['winner'] == name or m['loser'] == name]
+    wins = sum(1 for m in player_history if m['winner'] == name)
+    losses = sum(1 for m in player_history if m['loser'] == name)
+    total = wins + losses
+    win_rate = round((wins / total) * 100, 2) if total > 0 else 0
+
+    return jsonify({
+        "name": player['name'],
+        "rank": player['rank'],
+        "playstyle": player['playstyle'],
+        "wins": wins,
+        "losses": losses,
+        "total_matches": total,
+        "win_rate": win_rate,
+        "match_history": player_history  # ✅ Included this!
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
