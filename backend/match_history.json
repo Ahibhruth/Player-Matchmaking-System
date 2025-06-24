@@ -43,5 +43,15 @@
     "winner": "12345",
     "loser": "Jack",
     "timestamp": "2025-06-24T12:09:58.907403"
+  },
+  {
+    "winner": "Bob",
+    "loser": "Jack",
+    "timestamp": "2025-06-24T12:32:17.975613"
+  },
+  {
+    "winner": "Eve",
+    "loser": "12345",
+    "timestamp": "2025-06-24T12:44:20.642656"
   }
 ]

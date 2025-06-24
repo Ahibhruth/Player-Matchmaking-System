@@ -211,6 +211,7 @@
   padding: 0.5rem;
   text-align: left;
   border: 1px solid #333;
+  color: #e0e0e0; /* Default text color for table cells */
 }
 
 .match-history th {
@@ -228,6 +229,8 @@
 
 .won td {
   color: #4caf50; /* Green for wins */
+  font-weight: 500;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .won:hover {
@@ -239,8 +242,9 @@
 }
 
 .lost td {
-  color: #f44336; /* Red for losses */
-  opacity: 0.9;
+  color: #ff6b6b; /* Brighter red for losses */
+  opacity: 1;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
 }
 
 .lost:hover {

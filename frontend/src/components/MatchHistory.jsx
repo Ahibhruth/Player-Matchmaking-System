@@ -11,7 +11,7 @@ const MatchHistory = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: "100%", overflowX: "auto", marginTop: "20px" }}>
+    <div style={{ maxWidth: "100%", overflowX: "scroll", marginTop: "20px" }}>
       <h2>📜 Match History</h2>
       {history.length === 0 ? (
         <p>No match history yet.</p>

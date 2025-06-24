@@ -12,7 +12,7 @@
   {
     "id": 2,
     "name": "Bob",
-    "rank": 1515,
+    "rank": 1540,
     "playstyle": "defensive",
     "available": true,
     "avoid": []
@@ -38,7 +38,7 @@
   {
     "id": 5,
     "name": "Eve",
-    "rank": 1550,
+    "rank": 1575,
     "playstyle": "defensive",
     "available": true,
     "avoid": [
@@ -80,7 +80,7 @@
   {
     "id": 10,
     "name": "Jack",
-    "rank": 1630,
+    "rank": 1615,
     "playstyle": "aggressive",
     "available": true,
     "avoid": [
@@ -262,7 +262,7 @@
   {
     "id": 2337,
     "name": "12345",
-    "rank": 8025,
+    "rank": 8010,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []

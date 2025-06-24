@@ -80,7 +80,8 @@ table {
 th, td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #2a2a3c;
+  color: #000000; /* Changed to black */
 }
 
 th {
@@ -94,11 +95,21 @@ tr:hover {
 }
 
 .won {
-  background-color: rgba(40, 167, 69, 0.1);
+  background-color: rgba(40, 167, 69, 0.15);
+}
+
+.won td {
+  color: #000000; /* Changed to black */
+  font-weight: 500;
 }
 
 .lost {
-  background-color: rgba(220, 53, 69, 0.1);
+  background-color: rgba(220, 53, 69, 0.15);
+}
+
+.lost td {
+  color: #000000; /* Changed to black */
+  font-weight: 500;
 }
 
 .loading, .error, .no-matches {
