@@ -80,7 +80,7 @@
   {
     "id": 10,
     "name": "Jack",
-    "rank": 1645,
+    "rank": 1630,
     "playstyle": "aggressive",
     "available": true,
     "avoid": [
@@ -262,7 +262,7 @@
   {
     "id": 2337,
     "name": "12345",
-    "rank": 8000,
+    "rank": 8025,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []

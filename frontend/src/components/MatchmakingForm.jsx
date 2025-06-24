@@ -230,7 +230,7 @@ const MatchmakingForm = () => {
         <h2 className="section-title">REGISTER PLAYER</h2>
         <input className="input" name="id" value={form.id} placeholder="Player ID" onChange={handleChange} />
         <input className="input" name="name" value={form.name} placeholder="Player Name" onChange={handleChange} />
-        <input className="input" name="rank" type="number" value={form.rank} placeholder="Rank" onChange={handleChange} />
+        <input className="input" name="rank" type="number" value={form.rank} placeholder="Points" onChange={handleChange} />
         <select className="select" name="playstyle" value={form.playstyle} onChange={handleChange}>
           <option value="aggressive">Aggressive</option>
           <option value="defensive">Defensive</option>

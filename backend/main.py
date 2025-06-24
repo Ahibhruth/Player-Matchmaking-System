@@ -126,7 +126,7 @@ def match_player(name):
     for max_rank_diff, respect_avoid, style_penalty in fallback_levels:
         valid = []
         for p in candidates:
-            if abs(current.rank - p.rank) > max_rank_diff:
+            if abs(current.rank - p.rank) > float('inf'):#max_rank_diff replaced with float('inf')
                 continue
             if respect_avoid and (p.playstyle in current.avoid or current.playstyle in p.avoid):
                 continue
