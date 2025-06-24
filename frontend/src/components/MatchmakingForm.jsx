@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from "react";
 import "./MatchmakingForm.css";
 
-const PlayerProfileModal = ({ player, onClose }) => {
+const PlayerProfileModal = ({ player, onClose, onRefresh, isLoading }) => {
   if (!player) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <button className="close-button" onClick={onClose}>×</button>
-        <h2>{player.name}'s Profile</h2>
+        <div className="modal-header">
+          <h2>{player.name}'s Profile</h2>
+          <div className="modal-actions">
+            <button 
+              onClick={(e) => { e.stopPropagation(); onRefresh(); }} 
+              className="refresh-button"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Refreshing...' : '⟳ Refresh'}
+            </button>
+            <button className="close-button" onClick={onClose}>×</button>
+          </div>
+        </div>
         <div className="player-details">
           <p><strong>Rank:</strong> {player.rank}</p>
           <p><strong>Playstyle:</strong> {player.playstyle}</p>
@@ -54,6 +65,7 @@ const MatchmakingForm = () => {
   const [selectedPlayer, setSelectedPlayer] = useState("");
   const [lastMatchedPlayers, setLastMatchedPlayers] = useState([]);
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/api/players")
@@ -91,7 +103,10 @@ const MatchmakingForm = () => {
       });
   };
 
-  const viewPlayerProfile = async (playerName) => {
+  const fetchPlayerProfile = async (playerName) => {
+    if (!playerName) return;
+    
+    setIsLoadingProfile(true);
     try {
       const response = await fetch(`http://localhost:5000/api/player_stats/${encodeURIComponent(playerName)}`);
       const data = await response.json();
@@ -99,11 +114,25 @@ const MatchmakingForm = () => {
       if (response.ok) {
         setSelectedProfile(data);
       } else {
+        console.error('Error fetching profile:', data.error);
         alert(data.error || 'Failed to load player profile');
       }
     } catch (err) {
       console.error('Error fetching player profile:', err);
       alert('Error loading player profile');
+    } finally {
+      setIsLoadingProfile(false);
+    }
+  };
+  
+  const viewPlayerProfile = (playerName) => {
+    setSelectedProfile({ name: playerName }); // Set basic info immediately
+    fetchPlayerProfile(playerName);
+  };
+  
+  const handleProfileRefresh = () => {
+    if (selectedProfile?.name) {
+      fetchPlayerProfile(selectedProfile.name);
     }
   };
 
@@ -191,7 +220,9 @@ const MatchmakingForm = () => {
       {selectedProfile && (
         <PlayerProfileModal 
           player={selectedProfile} 
-          onClose={() => setSelectedProfile(null)} 
+          onClose={() => setSelectedProfile(null)}
+          onRefresh={handleProfileRefresh}
+          isLoading={isLoadingProfile}
         />
       )}
 

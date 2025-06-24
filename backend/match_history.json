@@ -23,5 +23,20 @@
     "winner": "rain",
     "loser": "Olivia",
     "timestamp": "2025-06-21T12:53:09.575791"
+  },
+  {
+    "winner": "Bob",
+    "loser": "Nate",
+    "timestamp": "2025-06-24T11:48:54.325056"
+  },
+  {
+    "winner": "Bob",
+    "loser": "asdf",
+    "timestamp": "2025-06-24T11:51:07.356988"
+  },
+  {
+    "winner": "Jack",
+    "loser": "Bob",
+    "timestamp": "2025-06-24T11:53:49.675543"
   }
 ]

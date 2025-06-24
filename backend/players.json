@@ -12,7 +12,7 @@
   {
     "id": 2,
     "name": "Bob",
-    "rank": 1480,
+    "rank": 1515,
     "playstyle": "defensive",
     "available": true,
     "avoid": []
@@ -80,7 +80,7 @@
   {
     "id": 10,
     "name": "Jack",
-    "rank": 1620,
+    "rank": 1645,
     "playstyle": "aggressive",
     "available": true,
     "avoid": [
@@ -114,7 +114,7 @@
   {
     "id": 14,
     "name": "Nate",
-    "rank": 1490,
+    "rank": 1475,
     "playstyle": "defensive",
     "available": false,
     "avoid": [
@@ -222,7 +222,7 @@
   {
     "id": 2333,
     "name": "asdf",
-    "rank": 5,
+    "rank": 1000,
     "playstyle": "defensive",
     "available": true,
     "avoid": []
@@ -271,6 +271,14 @@
     "id": 2338,
     "name": "rain",
     "rank": 147,
+    "playstyle": "aggressive",
+    "available": true,
+    "avoid": []
+  },
+  {
+    "id": 2339,
+    "name": "warrior",
+    "rank": 4000000,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
