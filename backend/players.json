@@ -230,7 +230,7 @@
   {
     "id": 101,
     "name": "Ahibhruth A",
-    "rank": 1,
+    "rank": 26,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -262,7 +262,7 @@
   {
     "id": 2337,
     "name": "12345",
-    "rank": 8035,
+    "rank": 8020,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -270,7 +270,7 @@
   {
     "id": 2338,
     "name": "rain",
-    "rank": 147,
+    "rank": 1000,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []
@@ -278,7 +278,7 @@
   {
     "id": 2339,
     "name": "warrior",
-    "rank": 4000000,
+    "rank": 4000025,
     "playstyle": "aggressive",
     "available": true,
     "avoid": []

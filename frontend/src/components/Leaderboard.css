@@ -58,16 +58,18 @@
 }
 
 .leaderboard-row.top-1 {
-  background: linear-gradient(90deg, #ffd70020, #1a1d3b);
+  background: linear-gradient(90deg, #b8860bdd, #1a1d3b); 
 }
 
 .leaderboard-row.top-2 {
-  background: linear-gradient(90deg, #c0c0c020, #1a1d3b);
+  background: linear-gradient(90deg, #a9a9a9dd, #1a1d3b); 
 }
 
 .leaderboard-row.top-3 {
-  background: linear-gradient(90deg, #cd7f3220, #1a1d3b);
+  background: linear-gradient(90deg, #8b4513dd, #1a1d3b); 
 }
+
+
 
 .rank-cell,
 .name-cell,

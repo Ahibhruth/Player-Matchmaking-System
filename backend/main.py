@@ -1,6 +1,8 @@
 import threading
 import json
 import os
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from datetime import datetime
@@ -8,7 +10,7 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)
 
-# --------- Player Class & Converters ----------
+
 class Player:
     def __init__(self, id, name, rank, playstyle, available=True, avoid=None):
         self.id = id
@@ -38,7 +40,7 @@ def dict_to_player(d):
         avoid=d.get("avoid", []),
     )
 
-# --------- Static Data and File Paths ----------
+
 static_player_data = [
     {"id": 1, "name": "Alice", "rank": 1500, "playstyle": "aggressive", "available": True, "avoid": ["defensive"]},
     {"id": 2, "name": "Bob", "rank": 1480, "playstyle": "defensive", "available": True, "avoid": []},
@@ -60,7 +62,68 @@ static_player_data = [
     {"id": 18, "name": "Rachel", "rank": 1475, "playstyle": "balanced", "available": True, "avoid": []},
     {"id": 19, "name": "Steve", "rank": 1520, "playstyle": "aggressive", "available": True, "avoid": ["defensive"]},
     {"id": 20, "name": "Tina", "rank": 1440, "playstyle": "defensive", "available": True, "avoid": []},
+    {"id": 21, "name": "Uma", "rank": 1602, "playstyle": "aggressive", "available": True, "avoid": []},
+    {"id": 22, "name": "Victor", "rank": 1358, "playstyle": "aggressive", "available": False, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 23, "name": "Wendy", "rank": 1565, "playstyle": "defensive", "available": False, "avoid": []},
+    {"id": 24, "name": "Xavier", "rank": 1722, "playstyle": "balanced", "available": False, "avoid": ["aggressive"]},
+    {"id": 25, "name": "Yara", "rank": 1446, "playstyle": "aggressive", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 26, "name": "Zane", "rank": 1500, "playstyle": "defensive", "available": True, "avoid": ["balanced"]},
+    {"id": 27, "name": "Amara", "rank": 1462, "playstyle": "defensive", "available": True, "avoid": ["aggressive", "balanced"]},
+    {"id": 28, "name": "Brent", "rank": 1512, "playstyle": "balanced", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 29, "name": "Cleo", "rank": 1680, "playstyle": "balanced", "available": True, "avoid": ["aggressive"]},
+    {"id": 30, "name": "Derek", "rank": 1484, "playstyle": "defensive", "available": False, "avoid": ["aggressive"]},
+    {"id": 31, "name": "Elena", "rank": 1570, "playstyle": "defensive", "available": True, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 32, "name": "Finn", "rank": 1693, "playstyle": "balanced", "available": False, "avoid": ["defensive"]},
+    {"id": 33, "name": "Gia", "rank": 1673, "playstyle": "aggressive", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 34, "name": "Harvey", "rank": 1381, "playstyle": "balanced", "available": True, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 35, "name": "Isla", "rank": 1476, "playstyle": "aggressive", "available": True, "avoid": ["aggressive", "defensive"]},
+    {"id": 36, "name": "Jay", "rank": 1480, "playstyle": "balanced", "available": True, "avoid": []},
+    {"id": 37, "name": "Kara", "rank": 1663, "playstyle": "balanced", "available": False, "avoid": ["defensive"]},
+    {"id": 38, "name": "Liam", "rank": 1705, "playstyle": "defensive", "available": False, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 39, "name": "Mira", "rank": 1481, "playstyle": "aggressive", "available": False, "avoid": []},
+    {"id": 40, "name": "Nico", "rank": 1549, "playstyle": "defensive", "available": True, "avoid": ["defensive", "balanced"]},
+    {"id": 41, "name": "Opal", "rank": 1500, "playstyle": "aggressive", "available": False, "avoid": []},
+    {"id": 42, "name": "Pia", "rank": 1371, "playstyle": "aggressive", "available": False, "avoid": ["defensive"]},
+    {"id": 43, "name": "Quincy", "rank": 1689, "playstyle": "aggressive", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 44, "name": "Ravi", "rank": 1480, "playstyle": "defensive", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 45, "name": "Sia", "rank": 1682, "playstyle": "balanced", "available": True, "avoid": ["balanced"]},
+    {"id": 46, "name": "Tom", "rank": 1650, "playstyle": "balanced", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 47, "name": "Usha", "rank": 1433, "playstyle": "defensive", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 48, "name": "Vik", "rank": 1579, "playstyle": "defensive", "available": False, "avoid": ["aggressive", "balanced"]},
+    {"id": 49, "name": "Willa", "rank": 1743, "playstyle": "defensive", "available": True, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 50, "name": "Xena", "rank": 1602, "playstyle": "balanced", "available": False, "avoid": ["aggressive", "balanced"]},
+    {"id": 51, "name": "Yusuf", "rank": 1416, "playstyle": "aggressive", "available": False, "avoid": []},
+    {"id": 52, "name": "Zara", "rank": 1688, "playstyle": "defensive", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 53, "name": "Ayan", "rank": 1479, "playstyle": "aggressive", "available": False, "avoid": ["aggressive"]},
+    {"id": 54, "name": "Bella", "rank": 1552, "playstyle": "defensive", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 55, "name": "Carl", "rank": 1461, "playstyle": "defensive", "available": False, "avoid": ["aggressive", "balanced"]},
+    {"id": 56, "name": "Dina", "rank": 1542, "playstyle": "aggressive", "available": True, "avoid": ["aggressive", "defensive"]},
+    {"id": 57, "name": "Eli", "rank": 1498, "playstyle": "defensive", "available": True, "avoid": ["aggressive", "defensive", "balanced"]},
+    {"id": 58, "name": "Fay", "rank": 1521, "playstyle": "defensive", "available": True, "avoid": ["defensive"]},
+    {"id": 59, "name": "Gus", "rank": 1528, "playstyle": "balanced", "available": True, "avoid": ["balanced"]},
+    {"id": 60, "name": "Hope", "rank": 1539, "playstyle": "defensive", "available": True, "avoid": ["defensive", "balanced"]},
+    {"id": 61, "name": "Ian", "rank": 1611, "playstyle": "balanced", "available": False, "avoid": ["defensive"]},
+    {"id": 62, "name": "Joan", "rank": 1579, "playstyle": "aggressive", "available": False, "avoid": []},
+    {"id": 63, "name": "Kyle", "rank": 1352, "playstyle": "balanced", "available": True, "avoid": []},
+    {"id": 64, "name": "Luna", "rank": 1735, "playstyle": "defensive", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 65, "name": "Moe", "rank": 1422, "playstyle": "balanced", "available": True, "avoid": ["aggressive", "defensive"]},
+    {"id": 66, "name": "Nina", "rank": 1661, "playstyle": "balanced", "available": False, "avoid": ["aggressive"]},
+    {"id": 67, "name": "Omar", "rank": 1552, "playstyle": "aggressive", "available": False, "avoid": ["defensive", "balanced"]},
+    {"id": 68, "name": "Penny", "rank": 1644, "playstyle": "defensive", "available": False, "avoid": []},
+    {"id": 69, "name": "Rex", "rank": 1708, "playstyle": "balanced", "available": True, "avoid": ["defensive", "balanced"]},
+    {"id": 70, "name": "Sara", "rank": 1396, "playstyle": "defensive", "available": False, "avoid": ["aggressive"]},
+    {"id": 71, "name": "Toby", "rank": 1536, "playstyle": "defensive", "available": False, "avoid": []},
+    {"id": 72, "name": "Umair", "rank": 1705, "playstyle": "defensive", "available": True, "avoid": []},
+    {"id": 73, "name": "Viola", "rank": 1460, "playstyle": "aggressive", "available": False, "avoid": ["aggressive", "balanced"]},
+    {"id": 74, "name": "Wren", "rank": 1496, "playstyle": "balanced", "available": False, "avoid": ["aggressive", "defensive"]},
+    {"id": 75, "name": "Ximena", "rank": 1457, "playstyle": "aggressive", "available": False, "avoid": ["balanced"]},
+    {"id": 76, "name": "Yuri", "rank": 1691, "playstyle": "balanced", "available": True, "avoid": ["aggressive"]},
+    {"id": 77, "name": "Zelda", "rank": 1735, "playstyle": "balanced", "available": False, "avoid": ["defensive"]},
+    {"id": 78, "name": "Aria", "rank": 1479, "playstyle": "balanced", "available": True, "avoid": []},
+    {"id": 79, "name": "Brock", "rank": 1551, "playstyle": "balanced", "available": True, "avoid": ["defensive"]},
+    {"id": 80, "name": "Clara", "rank": 1627, "playstyle": "balanced", "available": True, "avoid": ["aggressive", "defensive", "balanced"]},
 ]
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PLAYER_JSON_PATH = os.path.join(BASE_DIR, 'players.json')
@@ -68,7 +131,7 @@ MATCH_HISTORY_PATH = os.path.join(BASE_DIR, 'match_history.json')
 
 player_data_lock = threading.Lock()
 
-# --------- Utility Functions ----------
+
 def load_players():
     if os.path.exists(PLAYER_JSON_PATH):
         with open(PLAYER_JSON_PATH, 'r') as f:
@@ -87,7 +150,7 @@ def append_match_history(winner, loser):
     history.append({
         "winner": winner,
         "loser": loser,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(ZoneInfo("Asia/Kolkata")).isoformat()
     })
     with open(MATCH_HISTORY_PATH, 'w') as f:
         json.dump(history, f, indent=2)
@@ -207,7 +270,7 @@ def player_stats(name):
         "losses": losses,
         "total_matches": total,
         "win_rate": win_rate,
-        "match_history": player_history  # ✅ Included this!
+        "match_history": player_history  
     })
 
 if __name__ == "__main__":
